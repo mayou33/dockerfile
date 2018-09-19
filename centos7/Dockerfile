@@ -34,6 +34,6 @@ cat /dev/null > /var/log/lastlog && \
 cat /dev/null > /var/log/yum.log && \
 history -c && history -w
 
-ENTRYPOINT /bin/bash etc/rc.d/rc.local && /bin/bash
+ENTRYPOINT /bin/bash /etc/rc.d/rc.local
 
 CMD ["/usr/sbin/init"]
