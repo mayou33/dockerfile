@@ -4,8 +4,7 @@ FROM centos:7.5.1804
 RUN \
  yum -y install yum-priorities epel-release  && \
  yum-config-manager --enable epel  && \
- yum -y install gcc gcc-c++ iotop nc iptraf wget vim unzip atop make cmake autoconf automake sysstat lsof python-pip htop iftop nload nethogs net-tools 
-tar openssl openssl-devel python-devel iproute && \ 
+ yum -y install gcc gcc-c++ iotop nc iptraf wget vim unzip atop make cmake autoconf automake sysstat lsof python-pip htop iftop nload nethogs net-tools tar openssl openssl-devel python-devel iproute && \ 
  yum clean all && \ 
  rm -rf /var/cache/yum 
 ###########优化############
