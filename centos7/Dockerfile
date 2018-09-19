@@ -1,5 +1,5 @@
 FROM centos:7.5.1804
-
+MAINTAINER zhangyu33.com
 ###########基本软件############
 RUN \
  yum -y install yum-priorities epel-release  && \
