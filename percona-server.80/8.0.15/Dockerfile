@@ -9,8 +9,7 @@ ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN groupadd -g 3306 mysql
-RUN useradd -u 3306 -r -g 3306 -s /sbin/nologin \
-		-c "Default Application User" mysql
+RUN useradd -u 3306 -r -g 3306 -s /sbin/nologin mysql
 
 
 # check repository package signature in secure way
