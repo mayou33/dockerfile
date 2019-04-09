@@ -1,5 +1,9 @@
 FROM centos:7.5.1804
 MAINTAINER zhangyu33.com
+
+
+
+##注意官方centos7 镜像没有C.UTF-8，只有C 和en_US.utf8  要自己定制
 ###########基本软件############
 RUN \
  yum -y install yum-priorities epel-release  && \

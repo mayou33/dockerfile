@@ -1,6 +1,14 @@
 # https://github.com/docker-library/mariadb/blob/23417d54f56958b193e65ab548c34b3b336a1758/10.4/Dockerfile
 FROM ubuntu:bionic
 
+
+##Chinese
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
+##set timezone
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # specify  gid uid
 RUN  groupadd -r -g 3306 mysql && useradd -r -u 3306  -g mysql mysql
 
@@ -141,13 +149,6 @@ COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-
-##Chinese
-ENV LANG C.UTF-8
-ENV LC_ALL C.UTF-8
-##set timezone
-ENV TZ=Asia/Shanghai
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 USER mysql
 EXPOSE 3306

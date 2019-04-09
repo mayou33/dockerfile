@@ -2,8 +2,8 @@ FROM centos:7
 MAINTAINER zhangyu
 
 ##Chinese
-ENV LANG C.UTF-8
-ENV LC_ALL C.UTF-8
+#ENV LANG C.UTF-8
+#ENV LC_ALL C.UTF-8
 ##set timezone
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
