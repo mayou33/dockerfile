@@ -2,9 +2,9 @@ FROM centos:7
 MAINTAINER zhangyu
 
 ##注意官方centos7 镜像没有C.UTF-8，只有C 和en_US.utf8  要自己定制
-##Chinese
-#ENV LANG C.UTF-8
-#ENV LC_ALL C.UTF-8
+COPY C.utf8 /usr/lib/locale/C.utf8
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
 ##set timezone
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
