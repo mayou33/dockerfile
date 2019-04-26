@@ -17,7 +17,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN  yum -y install kde-l10n-Chinese && yum -y reinstall glibc-common  
 
-RUN yum install -y nc wget libuuid && yum update -y && yum clean all  
+RUN yum install -y nc wget libuuid && yum update -y && yum clean all && rm -rf /var/cache/yum
 
  
 RUN groupadd -g 9200 elasticsearch && \
@@ -28,9 +28,13 @@ RUN groupadd -g 9200 elasticsearch && \
 ###事先下载好--推荐
 ###COPY elasticsearch-7.0.0-linux-x86_64.tar.gz /opt/ 
 ##
-RUN cd /opt && wget http://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.0.0-linux-x86_64.tar.gz 
 
-RUN cd /usr/share/elasticsearch &&  tar zxf /opt/elasticsearch-7.0.0-linux-x86_64.tar.gz --strip-components=1
+
+ENV ES_VERSION 7.0.0
+
+RUN cd /opt && wget http://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz 
+
+RUN cd /usr/share/elasticsearch &&  tar zxf /opt/elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz --strip-components=1
 
 RUN grep ES_DISTRIBUTION_TYPE=tar /usr/share/elasticsearch/bin/elasticsearch-env \
     && sed -ie 's/ES_DISTRIBUTION_TYPE=tar/ES_DISTRIBUTION_TYPE=docker/' /usr/share/elasticsearch/bin/elasticsearch-env
@@ -56,7 +60,7 @@ RUN chown 9200:0 /usr/local/bin/docker-entrypoint.sh && \
     chown -R 9200:0 /usr/share/elasticsearch && \
     chown -R 9200:0 /data/elasticsearch && \
     chmod 777 /tmp && \ 
-    rm -rf /opt/elasticsearch-7.0.0-linux-x86_64.tar.gz 
+    rm -rf /opt/elasticsearch-${ES_VERSION}-linux-x86_64.tar.gz 
     
 EXPOSE 9200 9300
 
