@@ -12,7 +12,7 @@ RUN yum -y install kde-l10n-Chinese && yum -y reinstall glibc-common
 
 
 # the numeric UID is needed for OpenShift
-RUN useradd -u 27017 -r -g 0 -s /sbin/nologin mongodb
+RUN useradd -u 27017 -r -g 0  mongodb
 
 ENV PERCONA_MAJOR 40
 ENV PERCONA_VERSION 4.0.9-4.el7
@@ -70,6 +70,10 @@ VOLUME ["/data/db","/data/mongodbbackup"]
 
 
 COPY ps-entry.sh /entrypoint.sh
+
+RUN chown 27017:0 /entrypoint.sh && chmod 0775 /entrypoint.sh
+
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 
