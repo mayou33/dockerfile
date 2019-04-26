@@ -8,6 +8,9 @@ ENV LC_ALL C.UTF-8
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+RUN yum -y install kde-l10n-Chinese && yum -y reinstall glibc-common  
+
+
 # check repository package signature in secure way
 RUN export GNUPGHOME="$(mktemp -d)" \
         && gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A \
@@ -28,7 +31,11 @@ ENV PERCONA_MAJOR 40
 ENV PERCONA_VERSION 4.0.6-3.el7
 ENV K8S_TOOLS_VERSION 0.4.1
 
-RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+RUN  yum install -y wget \    
+        && rm -rf /etc/yum.repos.d/{CentOS-Base.repo,epel.repo} \
+        && wget -O /etc/yum.repos.d/CentOS7-Base-163.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo \
+        && wget -O /etc/yum.repos.d/epel-7-aliyun.repo http://mirrors.aliyun.com/repo/epel-7.repo \
+        && yum makecache \
         && yum install -y \
                 percona-server-mongodb-server-${PERCONA_VERSION} \
                 percona-server-mongodb-mongos-${PERCONA_VERSION} \
