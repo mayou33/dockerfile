@@ -27,7 +27,7 @@ RUN groupadd -g 9200 elasticsearch && \
 
 ###事先下载好--推荐
 ###COPY elasticsearch-7.0.0-linux-x86_64.tar.gz /opt/ 
-##
+##7.0.0版本自带了jdk
 
 
 ENV ES_VERSION 7.0.0
