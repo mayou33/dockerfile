@@ -14,6 +14,7 @@ ENV LC_ALL C.UTF-8
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+ 
 
 RUN  yum -y install kde-l10n-Chinese && yum -y reinstall glibc-common  
 

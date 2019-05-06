@@ -1,0 +1,19 @@
+####cluster.name: logging-prod
+discovery.type: single-node
+node.name: test-1
+##path.data: /data/elasticsearch/data
+##path.logs: /data/elasticsearch/log
+## memory
+bootstrap.memory_lock: true
+## network
+network.host: 0.0.0.0
+http.host: 0.0.0.0
+transport.host: 0.0.0.0
+http.port: 9200
+transport.port: 9300
+#
+xpack.ml.enabled: false
+xpack.security.enabled: false
+##以允许其他域从浏览器访问Elasticsearch
+http.cors.enabled: true
+http.cors.allow-origin: "*"

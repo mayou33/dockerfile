@@ -2,8 +2,6 @@ FROM centos:7
 
 ENV PATH /usr/share/elasticsearch/bin:$PATH
 
-
-
 COPY C.utf8 /usr/lib/locale/C.utf8
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
@@ -12,11 +10,11 @@ ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 
+
 ###下载太慢
 ##ENV JAVA_HOME /opt/jdk-12
 ###RUN curl --retry 8 -s https://download.java.net/java/GA/jdk12/GPL/openjdk-12_linux-x64_bin.tar.gz | tar -C /opt -zxf -  && rm -rf openjdk-12_linux-x64_bin.tar.gz
     
-
 ####RUN ln -sf /etc/pki/ca-trust/extracted/java/cacerts /opt/jdk-12/lib/security/cacerts
 
 ##用yum安装
@@ -27,24 +25,28 @@ RUN  yum install -y unzip which nc epel-release  wget which kde-l10n-Chinese && 
      yum update -y && \
      yum clean all &&\
      rm -rf /var/cache/yum
-     
+
+
+###     yum -y  install java-1.8.0-openjdk   && \     
+####ENV JAVA_HOME   /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64
+
 ENV JAVA_HOME  /usr/lib/jvm/java-12-openjdk-12.0.1.12-1.rolling.el7.x86_64
 
 
+
+ENV ES_VERSION 6.6.2
 
 RUN groupadd -g 9200 elasticsearch && \
     adduser -u 9200 -g 9200 -d /usr/share/elasticsearch elasticsearch
 
 WORKDIR /usr/share/elasticsearch
 
-RUN cd /opt && curl --retry 8 -s -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.7.1.tar.gz && \
+RUN cd /opt && curl --retry 8 -s -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz && \
     cd /usr/share/elasticsearch
 
-RUN tar zxf /opt/elasticsearch-6.7.1.tar.gz --strip-components=1 && \
-    rm -rf /opt/elasticsearch-6.7.1.tar.gz 
+RUN tar zxf /opt/elasticsearch-${ES_VERSION}.tar.gz --strip-components=1 && \
+    rm -rf /opt/elasticsearch-${ES_VERSION}.tar.gz 
 
-RUN grep ES_DISTRIBUTION_TYPE=tar /usr/share/elasticsearch/bin/elasticsearch-env \
-    && sed -ie 's/ES_DISTRIBUTION_TYPE=tar/ES_DISTRIBUTION_TYPE=docker/' /usr/share/elasticsearch/bin/elasticsearch-env
     
 RUN mkdir -p config data logs
 
@@ -78,5 +80,5 @@ ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 CMD ["eswrapper"]
 
-###docker build -f Dockerfile -t="elasticsearch:6.7.1" .
+###docker build -f Dockerfile -t="elasticsearch:6.6.2" .
 

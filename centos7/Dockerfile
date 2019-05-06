@@ -37,6 +37,7 @@ RUN \
  echo 'source /etc/bashrc' >> /etc/rc.d/rc.local  && \
  echo '/bin/bash' >> /etc/rc.d/rc.local
  
+ 
 ############
 RUN  \
 cat /dev/null > /var/log/wtmp && \
