@@ -1,17 +1,18 @@
-####cluster.name: logging-prod
-discovery.type: single-node
-node.name: test-1
-##path.data: /data/elasticsearch/data
-##path.logs: /data/elasticsearch/log
-## memory
-bootstrap.memory_lock: true
-## network
-network.host: 0.0.0.0
-http.port: 9200
-transport.port: 9300
-#
-xpack.ml.enabled: false
-xpack.security.enabled: false
-##以允许其他域从浏览器访问Elasticsearch
-http.cors.enabled: true
-http.cors.allow-origin: "*"
+version: '3.6'
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:7.0.0
+    volumes:
+      - /data/elasticsearch/data:/usr/share/elasticsearch/data
+      - /data/elasticsearch/logs:/usr/share/elasticsearch/logs
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - TZ=Asia/Shanghai
+      - node.name=es01
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1

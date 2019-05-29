@@ -132,8 +132,8 @@ RUN set -ex; \
 	sed -ri 's/^user\s/#&/' /etc/mysql/my.cnf /etc/mysql/conf.d/*; \
 # purge and re-create /var/lib/mysql with appropriate ownership
 	rm -rf /var/lib/mysql; \
-	mkdir -p /var/lib/mysql /var/run/mysqld; \
-	chown -R mysql:mysql /var/lib/mysql /var/run/mysqld; \
+	mkdir -p /var/lib/mysql /data/mysql/data /var/run/mysqld; \
+	chown -R mysql:mysql /var/lib/mysql /data/mysql/data /var/run/mysqld; \
 # ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime
 	chmod 777 /var/run/mysqld; \
 # comment out a few problematic configuration values
@@ -155,3 +155,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 USER mysql
 EXPOSE 3306
 CMD ["mysqld"]
+###docker build -f Dockerfile -t="mariadb:10.4" .

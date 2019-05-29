@@ -9,6 +9,10 @@ ENV LC_ALL C.UTF-8
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+##安装中文
+RUN yum -y install kde-l10n-Chinese && yum -y reinstall glibc-common  
+
+
 RUN groupadd -g 3306 mysql
 RUN useradd -u 3306 -r -g 3306 -s /sbin/nologin mysql
 
@@ -36,6 +40,11 @@ RUN yum install -y \
 		which \
 		policycoreutils \
 		https://repo.percona.com/percona/yum/release/7/RPMS/x86_64/jemalloc-3.6.0-1.el7.x86_64.rpm \
+		which \
+		policycoreutils \
+        openssl \
+        openssl-devel \
+        numactl \
 	&& yum clean all \
 	&& rm -rf /var/cache/yum /var/lib/mysql
 

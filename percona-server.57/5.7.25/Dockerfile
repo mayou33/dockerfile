@@ -9,7 +9,8 @@ ENV LC_ALL C.UTF-8
 ##set timezone
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
+##安装中文
+RUN yum -y install kde-l10n-Chinese && yum -y reinstall glibc-common  
 
 RUN groupadd -g 3306 mysql
 RUN useradd -u 3306 -r -g 3306 -s /sbin/nologin  mysql
@@ -37,8 +38,13 @@ RUN yum install -y \
 		jemalloc \
 		which \
 		policycoreutils \
+        openssl \
+        openssl-devel \
+        numactl \
 	&& yum clean all \
 	&& rm -rf /var/cache/yum /var/lib/mysql
+
+
 
 # purge and re-create /var/lib/mysql with appropriate ownership
 RUN /usr/bin/install -m 0775 -o mysql -g root -d /var/lib/mysql /var/run/mysqld /docker-entrypoint-initdb.d \
@@ -58,11 +64,21 @@ RUN /usr/bin/install -m 0775 -o mysql -g root -d /var/lib/mysql /var/run/mysqld 
 	&& chown -R mysql:root /etc/percona-server.cnf /etc/percona-server.conf.d /etc/my.cnf.d \
 	&& chmod -R ug+rwX /etc/percona-server.cnf /etc/percona-server.conf.d /etc/my.cnf.d
 
-VOLUME ["/var/lib/mysql", "/var/log/mysql"]
+RUN mkdir -p /data/mysql/data/   &&  mkdir -p /data/mysql/log/ && chown -R mysql:root /data/mysql/ && chmod -R ug+rwX /data/mysql/
+
+    
+    
+VOLUME ["/var/lib/mysql", "/var/log/mysql", "/data/mysql/data/", "/data/mysql/log/"]
+
+
+
 
 COPY ps-entry.sh /docker-entrypoint.sh
+RUN chmod 0755 /docker-entrypoint.sh && chown -R mysql:root /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 USER mysql
 EXPOSE 3306
 CMD ["mysqld"]
+
+### docker build -f Dockerfile -t="percona-server:5.7.25" .
