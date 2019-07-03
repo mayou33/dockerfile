@@ -1,6 +1,6 @@
 FROM centos:7
 MAINTAINER zhangyu
-
+##https://hub.docker.com/r/percona/percona-server/tags
 ##注意官方centos7 镜像没有C.UTF-8，只有C 和en_US.utf8  要自己定制
 
 COPY C.utf8 /usr/lib/locale/C.utf8
@@ -29,7 +29,7 @@ RUN export GNUPGHOME="$(mktemp -d)" \
         && percona-release enable original release
 
 # install exact version of PS for repeatability
-ENV PERCONA_VERSION 5.7.25-28.1.el7
+ENV PERCONA_VERSION 5.7.26-29.1.el7
 
 RUN yum install -y \
 		Percona-Server-server-57-${PERCONA_VERSION} \
@@ -64,7 +64,7 @@ RUN /usr/bin/install -m 0775 -o mysql -g root -d /var/lib/mysql /var/run/mysqld 
 	&& chown -R mysql:root /etc/percona-server.cnf /etc/percona-server.conf.d /etc/my.cnf.d \
 	&& chmod -R ug+rwX /etc/percona-server.cnf /etc/percona-server.conf.d /etc/my.cnf.d
 
-RUN mkdir -p /data/mysql/data/   &&  mkdir -p /data/mysql/log/ && chown -R mysql:root /data/mysql/ && chmod -R ug+rwX /data/mysql/
+RUN mkdir -p /data/mysql/{data,conf,log}  &&  mkdir -p /data/mysql/mysql/share && chown -R mysql:root /data/mysql/ && chmod -R ug+rwX /data/mysql/
 
     
     
@@ -81,4 +81,4 @@ USER mysql
 EXPOSE 3306
 CMD ["mysqld"]
 
-### docker build -f Dockerfile -t="percona-server:5.7.25" .
+### docker build -f Dockerfile -t="percona-server:5.7.26" .
