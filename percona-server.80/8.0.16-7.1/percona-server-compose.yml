@@ -1,8 +1,8 @@
 version: '2.3'
 services:
   percona-server:
-    image: percona-server:5.7.25
-    container_name: percona-server5.7.25
+    image: percona-server:8.0.16
+    container_name: percona-server8.0.16
     restart: always
     environment:
        - TZ=Asia/Shanghai
@@ -12,7 +12,7 @@ services:
        - /etc/localtime:/etc/localtime:ro
        - /data/mysql/data:/data/mysql/data
        - /data/mysql/log:/data/mysql/log
-       - /data/mysql/conf:/etc/percona-server.conf.d
+       - /data/mysql/conf:/etc/my.cnf.d
     ports:
        - 3306:3306
     cpu_count: 2
