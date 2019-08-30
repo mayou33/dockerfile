@@ -61,7 +61,7 @@ RUN /usr/bin/install -m 0775 -o mysql -g root -d /var/lib/mysql /var/run/mysqld 
 	&& chmod -R ug+rwX /etc/my.cnf /etc/my.cnf.d
 
 
-RUN mkdir -p /data/mysql/{data,conf,log}  &&  mkdir -p /data/mysql/mysql/share && chown -R mysql:root /data/mysql/ && chmod -R ug+rwX /data/mysql/
+RUN mkdir -p /data/mysql/{data,conf,log}  && chown -R mysql:root /data/mysql/ && chmod -R ug+rwX /data/mysql/
 
 VOLUME ["/var/lib/mysql", "/var/log/mysql", "/data/mysql/data/", "/data/mysql/log/", "/etc/my.cnf.d"]
 

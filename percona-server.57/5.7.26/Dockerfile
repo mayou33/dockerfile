@@ -64,7 +64,7 @@ RUN /usr/bin/install -m 0775 -o mysql -g root -d /var/lib/mysql /var/run/mysqld 
 	&& chown -R mysql:root /etc/percona-server.cnf /etc/percona-server.conf.d /etc/my.cnf.d \
 	&& chmod -R ug+rwX /etc/percona-server.cnf /etc/percona-server.conf.d /etc/my.cnf.d
 
-RUN mkdir -p /data/mysql/{data,conf,log}  &&  mkdir -p /data/mysql/mysql/share && chown -R mysql:root /data/mysql/ && chmod -R ug+rwX /data/mysql/
+RUN mkdir -p /data/mysql/{data,conf,log}  && chown -R mysql:root /data/mysql/ && chmod -R ug+rwX /data/mysql/
 
     
     

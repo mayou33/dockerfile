@@ -1,8 +1,8 @@
 version: '3.5'
 services:
   jenkins:
-    image: jenkins:2.164.3
-    container_name: jenkins2.164.3
+    image: jenkins:2.176.3
+    container_name: jenkins2.176.3
     restart: always
     environment:
        - TZ=Asia/Shanghai
