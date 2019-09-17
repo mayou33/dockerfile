@@ -1,8 +1,8 @@
 version: '3.6'
 services:
   mongo:
-    image: percona-server-mongodb:4.0.10
-    container_name: mongodb4010
+    image: percona-server-mongodb:4.0.12
+    container_name: mongodb4012
     restart: always
     command: mongod --auth --directoryperdb  --dbpath=/data/db --logpath=/data/db/mongod.log
     volumes:

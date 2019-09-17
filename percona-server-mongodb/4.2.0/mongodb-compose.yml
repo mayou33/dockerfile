@@ -1,0 +1,28 @@
+version: '3.6'
+services:
+  mongo:
+    image: percona-server-mongodb:4.2.0
+    container_name: mongodb420
+    restart: always
+    command: mongod --auth --directoryperdb  --dbpath=/data/db --logpath=/data/db/mongod.log
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /data/mongodb:/data/db
+      - /data/mongodbbackup:/data/mongodbbackup
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - 27017:27017
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5M"
+        max-file: "1"
+    dns:
+      - 192.168.16.249
+    networks:
+      - prd-network
+networks:
+  prd-network:
+    driver: bridge
+    name: prd-network
