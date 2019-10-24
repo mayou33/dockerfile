@@ -74,8 +74,8 @@ RUN set -ex; \
 	apt-key list
 
 
-ENV MARIADB_MAJOR 10.4
-ENV MARIADB_VERSION 1:10.4.8+maria~bionic
+ENV MARIADB_MAJOR 10.3
+ENV MARIADB_VERSION 1:10.3.18+maria~bionic
 
 
 RUN set -e;\
@@ -102,7 +102,7 @@ RUN set -ex; \
 	sed -ri 's/^user\s/#&/' /etc/mysql/my.cnf /etc/mysql/conf.d/*; \
 # purge and re-create /var/lib/mysql with appropriate ownership
 	rm -rf /var/lib/mysql; \
-	mkdir -p /var/lib/mysql  /data/mysql/data /data/mysql/conf /data/mysql/log /data/mysql/backup   /var/run/mysqld; \
+	mkdir -p /var/lib/mysql   /data/mysql/data /data/mysql/conf /data/mysql/log /data/mysql/backup   /var/run/mysqld; \
 	chown -R mysql:mysql /var/lib/mysql  /data/mysql /var/run/mysqld; \
 # ensure that /var/run/mysqld (used for socket and lock files) is writable regardless of the UID our mysqld instance ends up having at runtime
 	chmod 777 /var/run/mysqld; \
@@ -113,7 +113,7 @@ RUN set -ex; \
 # don't reverse lookup hostnames, they are usually another container
 	echo '[mysqld]\nskip-host-cache\nskip-name-resolve' > /etc/mysql/conf.d/docker.cnf
 
-VOLUME /var/lib/mysql  /data/mysql/data /data/mysql/conf /data/mysql/log /data/mysql/backup
+VOLUME /var/lib/mysql   /data/mysql/data /data/mysql/conf /data/mysql/log /data/mysql/backup
 
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat
@@ -121,4 +121,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 3306
 CMD ["mysqld"]
-###docker build -f Dockerfile -t="mariadb:10.4" .
+###docker build -f Dockerfile -t="mariadb:10.3" .

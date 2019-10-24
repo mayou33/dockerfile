@@ -9,7 +9,7 @@ ENV LC_ALL C.UTF-8
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ##安装中文
-RUN yum -y install kde-l10n-Chinese && yum -y reinstall glibc-common 
+RUN yum -y install kde-l10n-Chinese && yum -y  install glibc glibc-common glibc-devel glibc-headers libgcc
 
 RUN groupadd -g 3306 mysql
 RUN useradd -u 3306 -r -g 3306 -s /sbin/nologin  mysql
