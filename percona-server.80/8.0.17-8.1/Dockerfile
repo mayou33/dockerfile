@@ -1,31 +1,18 @@
 FROM centos:8
 ##https://hub.docker.com/r/percona/percona-server/tags
-##注意官方centos镜像没有C.UTF-8，只有C 和en_US.utf8  要自己定制
-COPY C.utf8 /usr/lib/locale/C.utf8
-ENV LANG C.UTF-8
-ENV LC_ALL C.UTF-8
+
 ##set timezone
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-##安装中文
-RUN yum -y install kde-l10n-Chinese && yum -y  install glibc glibc-common glibc-devel glibc-headers libgcc
 
-RUN groupadd -g 3306 mysql
-RUN useradd -u 3306 -r -g 3306 -s /sbin/nologin  mysql
 
-# check repository package signature in secure way
-RUN export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A \
-	&& gpg --export --armor 430BDF5C56E7C94E848EE60C1C4CBDCDCD2EFD2A > ${GNUPGHOME}/RPM-GPG-KEY-Percona \
-	&& rpmkeys --import ${GNUPGHOME}/RPM-GPG-KEY-Percona /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 \
-	&& curl -L -o /tmp/percona-release.rpm https://repo.percona.com/yum/percona-release-latest.noarch.rpm \
-	&& rpmkeys --checksig /tmp/percona-release.rpm \
-	&& yum install -y /tmp/percona-release.rpm \
-	&& rm -rf "$GNUPGHOME" /tmp/percona-release.rpm \
-	&& rpm --import /etc/pki/rpm-gpg/PERCONA-PACKAGING-KEY \
+RUN groupadd -g 3306 mysql && useradd -u 3306 -r -g 3306 -s /sbin/nologin  mysql
+
+RUN  rpm --import  https://repo.percona.com/yum/PERCONA-PACKAGING-KEY \
+	&& yum -y install https://repo.percona.com/yum/percona-release-latest.noarch.rpm \ 
 	&& percona-release disable all \
 	&& percona-release setup ps80 \
-	&& yum module disable mysql
+	&& dnf module disable mysql
 
 # install exact version of PS for repeatability
 ENV PERCONA_VERSION 8.0.17-8.1.el7
