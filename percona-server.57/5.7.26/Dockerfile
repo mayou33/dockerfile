@@ -64,14 +64,10 @@ RUN /usr/bin/install -m 0775 -o mysql -g root -d /var/lib/mysql /var/run/mysqld 
 	&& chown -R mysql:root /etc/percona-server.cnf /etc/percona-server.conf.d /etc/my.cnf.d \
 	&& chmod -R ug+rwX /etc/percona-server.cnf /etc/percona-server.conf.d /etc/my.cnf.d
 
-RUN mkdir -p /data/mysql/{data,conf,log}  && chown -R mysql:root /data/mysql/ && chmod -R ug+rwX /data/mysql/
+###RUN [ "/bin/bash", "-c", "mkdir -p /data/mysql/{data,conf,log,backup,undo}" ]
+RUN  mkdir -p /data/mysql/data /data/mysql/conf /data/mysql/log /data/mysql/backup /data/mysql/undo && chown -R mysql:root /data/mysql/ && chmod -R ug+rwX /data/mysql/
 
-    
-    
-VOLUME ["/var/lib/mysql", "/var/log/mysql", "/data/mysql/data/", "/data/mysql/log/"]
-
-
-
+VOLUME ["/var/lib/mysql", "/var/log/mysql", "/data/mysql/data/", "/data/mysql/log/", "/data/mysql/backup/", "/data/mysql/undo/", "/etc/my.cnf.d"]
 
 COPY ps-entry.sh /docker-entrypoint.sh
 RUN chmod 0755 /docker-entrypoint.sh && chown -R mysql:root /docker-entrypoint.sh

@@ -10,8 +10,10 @@ services:
        - MYSQL_ROOT_HOST=%
     volumes:
        - /etc/localtime:/etc/localtime:ro
+       - /data/mysql/backup:/data/mysql/backup
        - /data/mysql/data:/data/mysql/data
        - /data/mysql/log:/data/mysql/log
+       - /data/mysql/undo:/data/mysql/undo
        - /data/mysql/conf:/etc/percona-server.conf.d
     ports:
        - 3306:3306
