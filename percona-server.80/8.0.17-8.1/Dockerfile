@@ -10,15 +10,16 @@ RUN groupadd -g 3306 mysql && useradd -u 3306 -r -g 3306 -s /sbin/nologin  mysql
 
 RUN  rpm --import  https://repo.percona.com/yum/PERCONA-PACKAGING-KEY \
 	&& yum -y install https://repo.percona.com/yum/percona-release-latest.noarch.rpm \ 
+	&& dnf module disable mysql -y \
 	&& percona-release disable all \
-	&& percona-release setup ps80 \
-	&& dnf module disable mysql
+	&& yes| percona-release setup ps80
 
 # install exact version of PS for repeatability
-ENV PERCONA_VERSION 8.0.17-8.1.el7
+ENV PERCONA_VERSION 8.0.17-8.1.el8
 
 RUN yum install -y \
 		percona-server-server-${PERCONA_VERSION} \
+        percona-server-devel-${PERCONA_VERSION} \ 
 		percona-server-tokudb-${PERCONA_VERSION} \
 		percona-server-rocksdb-${PERCONA_VERSION} \
 		jemalloc \
