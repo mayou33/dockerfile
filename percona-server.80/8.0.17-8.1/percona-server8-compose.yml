@@ -14,7 +14,8 @@ services:
        - /data/mysql/data:/data/mysql/data
        - /data/mysql/log:/data/mysql/log
        - /data/mysql/undo:/data/mysql/undo
-       - /data/mysql/conf:/etc/percona-server.conf.d
+       - /data/mysql/loaddata:/data/mysql/loaddata
+       - /data/mysql/conf:/etc/my.cnf.d
     ports:
        - 3306:3306
     cpu_count: 2
